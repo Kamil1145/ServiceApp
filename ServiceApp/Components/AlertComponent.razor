@@ -1,0 +1,43 @@
+﻿<Alert class="alertComponent" Dismisable="true" Color=@_color @bind-Visible="@_visible">
+    <AlertMessage>
+        @_alertMessage
+        @if (_spinner)
+        {
+            <div class="spinner" style="width:40px;height:40px"></div>
+        }
+    </AlertMessage>
+    <CloseButton />
+</Alert>
+
+<style>
+    .alertComponent {
+        opacity: 1;
+        z-index: 20;
+    }
+</style>
+
+@code {
+    public bool _visible;
+    public bool _spinner;
+    public string _alertMessage { get; set; } = string.Empty;
+    public Color _color { get; set; } = Color.Danger;
+
+    public async Task ShowComponent(string value, Color color = null, bool spinner = false)
+    {
+        if (color is not null)
+            _color = color;
+        _spinner = spinner;
+
+        _visible = true;
+        _alertMessage = value;
+        StateHasChanged();
+        await Hide();
+    }
+
+    public async Task Hide()
+    {
+        await Task.Delay(3000);
+        _visible = false;
+        StateHasChanged();
+    }
+}

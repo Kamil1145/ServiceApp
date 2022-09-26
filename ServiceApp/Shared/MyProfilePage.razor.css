@@ -1,0 +1,14 @@
+﻿* {
+    box-sizing: border-box;
+    margin: auto;
+    padding: 10px;
+}
+
+body {
+    background-color: #CFE1D2;
+    height: 100vh;
+}
+
+.card {
+    background-color: #CFE1D2;
+}

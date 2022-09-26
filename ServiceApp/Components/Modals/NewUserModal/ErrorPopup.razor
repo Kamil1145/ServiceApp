@@ -1,0 +1,11 @@
+﻿@if (ShowMessage)
+{
+    <h3>Error Message</h3>
+    <H2>@Message</H2>
+}
+
+
+@code {
+    public bool ShowMessage = false;
+    public string Message { get; set; } = string.Empty;
+}

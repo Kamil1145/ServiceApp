@@ -1,0 +1,17 @@
+﻿body {
+    background-color: #CFE1D2;
+    height: 100vh;
+    display: flex;
+}
+
+table {
+    margin: auto;
+    margin-top: 50px;
+    border-radius: 25px;
+    background-color: #7bbbbb;
+}
+
+th, td{
+    padding: 20px;
+    letter-spacing: 0.1em;
+}

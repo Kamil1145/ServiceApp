@@ -1,0 +1,100 @@
+﻿<div>
+    <Button Color="Color.Primary" Clicked="@ShowModal">@buttonText</Button>
+</div>
+
+<Modal @ref="_modalRef" Class="modal">
+    @if (!_users.IsNullOrEmpty())
+    {
+        <ModalContent Centered>
+            <ModalHeader>
+                <ModalTitle>Employee edit</ModalTitle>
+                <CloseButton />
+            </ModalHeader>
+            <ModalBody>
+                <Row>
+                    <Column>
+                        <Card Margin="Margin.Is4.OnY">
+                            <CardBody>
+                                <DataGrid TItem="UserDto"
+                                      Data="@_users"
+                                      ShowPager
+                                      PageSize="10"
+                                      ShowPageSizes
+                                      Filterable
+                                      @bind-SelectedRow="@_selectedUser"
+                                      RowClicked=OnSelectedUser
+                                      FilterMethod="DataGridFilterMethod.Contains"
+                                      Virtualize
+                                      VirtualizeOptions="@(new() { DataGridHeight = "600"})">
+                                    <DataGridColumns>
+                                        <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.FirstName)" Caption="First Name" Sortable="true" Editable="false" />
+                                        <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.LastName)" Caption="Last Name" Sortable="true" Editable="false" />
+                                        <DataGridCheckColumn TItem="UserDto" Field="@nameof(UserDto.IsActive)" Caption="Active" Editable Filterable="false">
+                                            <DisplayTemplate>
+                                                <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                            </DisplayTemplate>
+                                        </DataGridCheckColumn>
+                                    </DataGridColumns>
+                                </DataGrid>
+                            </CardBody>
+                        </Card>
+                    </Column>
+                </Row>
+            </ModalBody>
+            <ModalFooter>
+                <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+                <Button Color="Color.Primary" Clicked="@Save">Save Changes</Button>
+            </ModalFooter>
+        </ModalContent>
+    }
+</Modal>
+
+
+@code {
+    [Inject] private IUserService _userService { get; set; }
+
+    private Modal _modalRef;
+    public UserDto? _selectedUser;
+    public string? buttonText = "Select new user";
+    public IEnumerable<UserDto>? _users { get; set; }
+    private int _totalUsers;
+
+    protected override async void OnInitialized()
+    {
+        base.OnInitialized();
+        _users = (await _userService.GetEmployees());
+
+    }
+
+
+    private Task ShowModal()
+    {
+        return _modalRef.Show();
+    }
+
+    private Task HideModal()
+    {
+        _selectedUser = null;
+        return _modalRef.Hide();
+    }
+
+    private void Save()
+    {
+        buttonText = $"Assign to: {_selectedUser.FirstName} {_selectedUser.LastName}";
+        StateHasChanged();
+        _modalRef.Hide();
+
+    }
+
+    private async Task OnSelectedUser()
+    {
+        if (_selectedUser is not null)
+        {
+            buttonText = $"{_selectedUser.FirstName} {_selectedUser.LastName}";
+            StateHasChanged();
+        }
+
+    }
+
+
+}

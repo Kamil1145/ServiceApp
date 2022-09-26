@@ -1,0 +1,32 @@
+﻿<Field>
+    <DropdownList  TItem="TicketPriority" 
+                   TValue="string"
+                   Data="_priorities"
+                   TextField="(item)=>item.ToString()"
+                   ValueField="(item)=>item.ToString()"
+                   @bind-SelectedValue="@_selectedStatus"
+                   Color="Color.Primary"
+                   MaxMenuHeight="200px">
+        @(_selectedStatus ?? "status")
+    </DropdownList>
+</Field>
+
+
+@code {
+    [Inject] private IRoleService _roleService { get; set; }
+
+    public string? _selectedStatus= null;
+
+    List<TicketPriority> _priorities { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        _priorities = Enum.GetValues<TicketPriority>().ToList();
+    }
+
+    protected override Task OnAfterRenderAsync(bool firstRender)
+    {
+        StateHasChanged();
+        return base.OnAfterRenderAsync(firstRender);
+    }
+}

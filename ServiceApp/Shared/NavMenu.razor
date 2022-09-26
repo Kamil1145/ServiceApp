@@ -1,0 +1,51 @@
+﻿
+
+<body>
+<ul>
+    <AuthorizeView>
+        <Authorized>
+            @*TO DO: 
+                - podział na role
+            *@
+
+            <li><a href="/">Main page</a></li>
+            <li><a href=@PageDictionary.FormPage()>Add new ticket</a></li>
+            <li><a href=@PageDictionary.TicketsPage()>Tickets</a></li>
+            <li><a href=@PageDictionary.CustomersPage()>Customers</a></li>
+            <li><a href=@PageDictionary.UserListPage()>Users</a></li>
+            <li style="float:inline-end" @onclick="GoToMyProfile" class="logout">My profie</li>
+            <li style="float: right" @onclick="Logout" class="logout">Logout</li>
+            
+        </Authorized>
+    </AuthorizeView>
+</ul>
+
+<AuthorizeView>
+    <NotAuthorized>
+        <ul>
+            <li><a href="/login">Login</a></li>
+        </ul>
+    </NotAuthorized>
+</AuthorizeView>
+</body>
+
+
+@code {
+
+    [Inject] NavigationManager _navigationManager { get; set; }
+    [Inject] ILocalStorageService _localStorage { get; set; }
+    [Inject] ITokenService _tokenService { get; set; }
+    [Inject] AuthenticationStateProvider _authenticationStateProvider { get; set; }
+
+    private async Task Logout()
+    {
+        _navigationManager.NavigateTo(PageDictionary.LoginPage());
+        await _tokenService.RemoveTokens();
+        await _authenticationStateProvider.GetAuthenticationStateAsync();
+    }
+
+    private async Task GoToMyProfile()
+    {
+        _navigationManager.NavigateTo(PageDictionary.MyProfilePage());
+    }
+}

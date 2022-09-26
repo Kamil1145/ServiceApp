@@ -1,0 +1,48 @@
+﻿@page "/Userdetails/{_id}"
+
+@if (_user is null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <AuthorizeView>
+        <Authorized>
+            <div class="row justify-content-center m-3">
+                <div class="col-sm-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h1>@_user.FirstName @_user.LastName</h1>
+                        </div>
+
+                        <div class="card-body text-center">
+                            <img class="card-img-top" src="@_user.FirstName" />
+
+                            <h4>User ID : @_user.Id</h4>
+                            <h4>Email : @_user.Email</h4>
+                            <h4>Roles:</h4>
+                            @if (!_user.Roles.IsNullOrEmpty())
+                            {
+                                @foreach (var role in _user.Roles)
+                                {
+                                    <h4>@role.RoleName</h4>
+                                }
+                            }
+                        </div>
+                        <div class="card-footer text-center">
+                            @if (_pageHistoryState.CanGoBack())
+                            {
+                                <Button Color="Color.Primary" Clicked="@Back">Back</Button>
+                            }
+                            <Button Color="Color.Primary" Clicked="@GoToUserEdit">Edit</Button>
+                            <Button Color="Color.Primary" Clicked="@DeleteUser">Delete</Button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Authorized>
+        <NotAuthorized>
+            Użytkownik niezalogowany, brak dostępu do zasobów
+        </NotAuthorized>
+    </AuthorizeView>
+}

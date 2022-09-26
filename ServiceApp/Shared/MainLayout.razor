@@ -1,0 +1,20 @@
+﻿@inherits LayoutComponentBase
+
+<CascadingValue Value="this">
+    <div class="page"></div>
+
+    <div class="bar">
+        <NavMenu />
+    </div>
+    @Body
+    <footer>
+        <AlertComponent @ref=alertComponent />
+    </footer>
+</CascadingValue>
+
+
+@code {
+
+    public AlertComponent alertComponent;
+
+}

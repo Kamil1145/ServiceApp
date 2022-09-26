@@ -1,0 +1,28 @@
+﻿@page "/"
+
+<PageTitle>Service App</PageTitle>
+<body>
+    @if (_isInitialized)
+    {
+        <AuthorizeView>
+            <Authorized>
+                <table>
+                    <tr>
+                        <th>
+                            Aplikacja serwisowa została stworzona na potrzebę przedsiębiorstwa, które chciało uaktualnić o nowszą wersję oprogramowania do obsługiwania Klientów.<br />
+                            Głównym celem aplikacji jest możliwość komunikacji na zasadzie klient-wsparcie techniczne. <br />
+                            Zgłaszanie problemów poprzez tego typu aplikację umożliwi łatwiejszy kontakt z Klientem, a przedewszystkim będzie łatwiej dostępna dla Klientów.<br />
+                            Mowa tutaj o dostęp do aplikacji poprzez telefon komórkowy/tablet/laptop etc.<br /> <br />
+                            <center>2022 &copy; Kamil Abram & Przemysław Celadyn </center>
+                        </th>
+                    </tr>
+                </table>
+            </Authorized>
+        </AuthorizeView>
+    }
+    else
+    {
+        <div class="spinner"></div>
+    }
+</body>
+

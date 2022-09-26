@@ -1,0 +1,30 @@
+﻿<Field>
+    <DropdownList TItem="Role" 
+                  TValue="string"
+                  Data="@_roles"
+                  TextField="(item)=>item.RoleName"
+                  ValueField="(item)=>item.RoleName"
+                  @bind-SelectedValue="@_selectedRole"
+                  Color="Color.Primary"
+                  MaxMenuHeight="200px">
+        @(_selectedRole ?? "Choose role")
+    </DropdownList>
+</Field>
+
+
+@code {
+
+    public string? _selectedRole= null;
+    
+    public List<Role> _roles { get; set; }
+
+    [Inject] 
+    private IRoleService _roleService { get; set; }
+
+
+
+    protected override async Task OnInitializedAsync()
+    {
+        _roles = (await _roleService.GetRoles()).ToList();
+    }
+}

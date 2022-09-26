@@ -1,0 +1,28 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<IncludeGeneratorSharedCode>true</IncludeGeneratorSharedCode>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<RestoreAdditionalProjectSources>
+			https://azuresdkartifacts.blob.core.windows.net/azure-sdk-tools/index.json
+		</RestoreAdditionalProjectSources>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Azure.Core" Version="1.25.0" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore" Version="6.3.1" />
+		<PackageReference Include="Swashbuckle.AspNetCore.SwaggerGen" Version="6.3.1" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\ServiceApp.Models\ServiceApp.Models.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="ServiceApp.ApiClient\" />
+	</ItemGroup>
+
+</Project>

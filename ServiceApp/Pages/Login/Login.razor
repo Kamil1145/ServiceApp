@@ -1,0 +1,28 @@
+﻿@page "/login"
+
+<div class="login-page">
+    <ErrorBoundary @ref="errorBoundary">
+        <ChildContent>
+            <EditForm Model=@typeof(UserLoginDto) OnSubmit="HandleLogin">
+                <AuthorizeView>
+                    <NotAuthorized Context="login">
+                        <div class="title">Welcome!</div>
+                        <div class="subtitle">Login to your account!</div>
+                        <div class="input-container ic1">
+                            <input id="firstname" @bind-value="user.Email" class="input" type="text" placeholder="Email" />
+                        </div>
+                        <div class="input-container ic3">
+                            <input id="email" @bind-value="user.Password" class="input" type="password" placeholder="Password" />
+                        </div>
+                        <button type="submit" class="button">Login</button>
+                    </NotAuthorized>
+                </AuthorizeView>
+            </EditForm>
+        </ChildContent>
+        <ErrorContent>
+            <p class="errorUI">Error during processing...</p>
+        </ErrorContent>
+    </ErrorBoundary>
+</div>
+
+

@@ -1,0 +1,48 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+	<PropertyGroup>
+		<TargetFramework>net6.0</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<Content Remove="api.json" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Blazored.LocalStorage" Version="4.2.0" />
+		<PackageReference Include="Blazorise" Version="1.0.6" />
+		<PackageReference Include="Blazorise.Bootstrap" Version="1.0.5" />
+		<PackageReference Include="Blazorise.Components" Version="1.0.5" />
+		<PackageReference Include="Blazorise.DataGrid" Version="1.0.5" />
+		<PackageReference Include="Blazorise.Icons.FontAwesome" Version="1.0.5" />
+		<PackageReference Include="Blazorise.RichTextEdit" Version="1.0.6" />
+		<PackageReference Include="Codecamp.HttpClientService.Blazor" Version="2.2.2" />
+		<PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="6.0.3" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.3" />
+		<PackageReference Include="Microsoft.Extensions.ApiDescription.Client" Version="3.0.0">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+		<PackageReference Include="Microsoft.Rest.ClientRuntime" Version="2.3.24" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+		<PackageReference Include="System.Configuration.ConfigurationManager" Version="6.0.0" />
+		<PackageReference Include="Toolbelt.Blazor.HttpClientInterceptor" Version="10.1.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\ServiceApp.ApiClient\ServiceApp.ApiClient.csproj" />
+		<ProjectReference Include="..\ServiceApp.Models\ServiceApp.Models.csproj" />
+	</ItemGroup>
+	<ItemGroup>
+		<Folder Include="Tools\Navigation\" />
+		<Folder Include="Web\" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Content Update="Components\TicketStatusComponent.razor">
+	    <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+	  </Content>
+	</ItemGroup>
+	
+</Project>

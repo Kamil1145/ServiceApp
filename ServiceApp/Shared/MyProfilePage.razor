@@ -1,0 +1,41 @@
+﻿@page "/myprofile"
+@attribute [Authorize]
+
+@if (_user is null)
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <AuthorizeView>
+        <Authorized>
+            <body>
+                <div class="row justify-content-center m-3">
+                    <div class="card">
+                        <h1>USER PROFILE</h1>
+                        <div class="card-body text-center">
+                            <h2>User ID: <b>@_user.Id</b></h2>
+                            <h3>Imię i nazwisko: <b>@_user.FirstName @_user.LastName</b></h3>
+                            <h3>Email: <b>@_user.Email</b></h3>
+                            @if (!_user.Roles.IsNullOrEmpty())
+                            {
+                                var test = _user.Roles.Select(x => x.RoleName);
+                                <h4>
+                                    Role: @(string.Join(", ", test))
+                                </h4>
+                            }
+                        </div>
+                        <div class="card-footer text-center">
+                            <a href="@(PageDictionary.UserListPage())" class="btn btn-primary">Back</a>
+                            <a href="@(PageDictionary.UserEditPage(_user.Id.ToString()))" class="btn btn-primary">Edit</a>
+                            <a href="#" class="btn btn-danger">Delete</a>
+                        </div>
+                    </div>
+                </div>
+            </body>
+        </Authorized>
+        <NotAuthorized>
+            Użytkownik niezalogowany, brak dostępu do zasobów
+        </NotAuthorized>
+    </AuthorizeView>
+}

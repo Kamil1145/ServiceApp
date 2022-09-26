@@ -1,0 +1,28 @@
+﻿@page "/customers"
+@attribute [Authorize]
+
+<body>
+@if (_customers.IsNullOrEmpty())
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <DataGrid TItem="CustomerDto"
+              Data="@_customers"
+              ShowPager
+              PageSize="10"
+              ShowPageSizes
+              Filterable
+              @bind-SelectedRow="@_selectedUser"
+              @onclick=OnSelectedUser
+              FilterMethod="DataGridFilterMethod.Contains">
+        <DataGridCommandColumn />
+            <DataGridColumn TItem="CustomerDto" Field="@nameof(CustomerDto.Id)" Caption="ID" Sortable="false" Width="300px" />
+            <DataGridColumn TItem="CustomerDto" Field="@nameof(CustomerDto.FirstName)" Caption="First Name" Sortable="false" Editable />
+            <DataGridColumn TItem="CustomerDto" Field="@nameof(CustomerDto.LastName)" Caption="Last Name" Sortable="false" Editable />
+            <DataGridColumn TItem="CustomerDto" Field="@nameof(CustomerDto.Email)" Caption="Email" Sortable="true" Editable />
+            <DataGridColumn TItem="CustomerDto" Field="@nameof(CustomerDto.IsActive)" Caption="IsActive" Sortable="false" Editable />
+        </DataGrid>
+}
+</body>

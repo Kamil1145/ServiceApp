@@ -1,0 +1,33 @@
+﻿@page "/register"
+
+<EditForm Model=@typeof(UserRegisterDto) OnSubmit="HandleRegister">
+            <AuthorizeView>
+            <NotAuthorized Context="register">
+    <div class="register-page">
+        <div class="title">Welcome!</div>
+        <div class="subtitle">Create a new account.</div>
+        <div class="input-container ic1">
+            <input @bind-value="_user.FirstName" class="input" type="text" placeholder="Firstname" />
+            <div>
+            </div>
+        </div>
+        <div class="input-container ic2">
+            <input @bind-value="_user.LastName" class="input" type="text" placeholder="Lastname" />
+            <div>
+            </div>
+        </div>
+        <div class="input-container ic2">
+            <input @bind-value="_user.Email" class="input" type="text" placeholder="Email" />
+            <div>
+            </div>
+        </div>
+        <div class="input-container ic3">
+            <input @bind-value="_user.Password" class="input" type="password" placeholder="Password" />
+            <div>
+            </div>
+        </div>
+        <button type="submit" class="button">Register</button>
+    </div>
+                </NotAuthorized>
+        </AuthorizeView>
+</EditForm>

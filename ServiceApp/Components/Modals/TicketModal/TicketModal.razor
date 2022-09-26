@@ -1,0 +1,35 @@
+﻿<Button Color="Color.Primary" Clicked="@ShowModal">Edit</Button>
+
+
+<Modal @ref="_modalRef" Class="modal">
+    <ModalContent Centered Size=ModalSize.Large>
+        <ModalHeader>
+            <ModalTitle>Employee edit</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>Description</FieldLabel>
+                @if (_ticketDto != null)
+                {
+                    <MemoEdit @bind-Text="_ticketDto.Description" AutoSize/>
+                }
+            </Field>
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Color="Color.Primary" Clicked="@Save">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<style>
+    .modal {
+        z-index: 1;
+        opacity: 100;
+    }
+
+    .modal-backdrop {
+        z-index: 0;
+    }
+</style>

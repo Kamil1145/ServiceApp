@@ -1,0 +1,23 @@
+################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+
+
+.vs/
+/ServiceApp.API/bin
+/ServiceApp.API/obj
+/ServiceApp/obj
+/ServiceApp/bin
+/ServiceApp.Models/bin
+/ServiceApp.Models/obj
+/ServiceApp.sln.DotSettings
+/ServiceApp.ApiClient/bin/Debug/net6.0
+/ServiceApp.ApiClient/obj
+/ServiceApp.API/Properties/PublishProfiles
+/nswag.nswag
+/ServiceApp.API/.config/dotnet-tools.json
+/ServiceAPP.Tests/bin/Debug/net6.0
+/ServiceAPP.Tests/obj
+/ServiceApp.ApiClient/bin/Release/net6.0
+/ServiceAPP.Tests/bin/Release/net6.0

@@ -1,0 +1,84 @@
+﻿@page "/form"
+@attribute [Authorize]
+
+<AuthorizeView>
+    <Authorized>
+        <html>
+        <body>
+            <label class="container">
+                @if (_userContext is not null)
+                {
+                    <Layout>
+                        <LayoutHeader>
+                            <center>CREATING NEW TICKET</center>
+                        </LayoutHeader>
+                        <LayoutContent>
+                            <Field>
+                                <FieldLabel>Firstname:</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text=_userContext.FirstName ReadOnly="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Lastname:</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text=_userContext.LastName ReadOnly="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Email:</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit @bind-Text=_userContext.Email ReadOnly="true" />
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>ID Klienta:</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit Placeholder="ID Klienta">
+                                    </TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Client name</FieldLabel>
+                                <FieldBody>
+                                    <TextEdit Placeholder="Client name"></TextEdit>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Ticket title:</FieldLabel>
+                                <FieldBody>
+                                    <Validation Validator="ValidateTicketTitle">
+                                        <TextEdit Placeholder="Ticket title..." @bind-Text=_ticketDto.Title>
+                                            <Feedback>
+                                                <ValidationNone>Provide ticket title</ValidationNone>
+                                                <ValidationSuccess>Title correct</ValidationSuccess>
+                                                <ValidationError>Title too short</ValidationError>
+                                            </Feedback>
+                                        </TextEdit>
+                                    </Validation>
+                                </FieldBody>
+                            </Field>
+                            <Field>
+                                <FieldLabel>Ticket description:</FieldLabel>
+                                <FieldBody>
+                                    <Validation Validator="ValidateTicketDescription">
+                                        <MemoEdit Placeholder="Ticket description..." @bind-Text=_ticketDto.Description AutoSize>
+                                            <Feedback>
+                                                <ValidationNone>Provide ticket description</ValidationNone>
+                                                <ValidationSuccess>Description correct</ValidationSuccess>
+                                                <ValidationError>Description too short</ValidationError>
+                                            </Feedback>
+                                        </MemoEdit>
+                                    </Validation>
+                                </FieldBody>
+                            </Field>
+                            <center><Button Clicked="@Save" Color="Color.Warning">Send ticket</Button></center>
+                        </LayoutContent>
+                    </Layout>
+                }
+            </label>
+        </body>
+    </html>
+</Authorized>
+</AuthorizeView>
+

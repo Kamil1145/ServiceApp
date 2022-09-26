@@ -1,0 +1,53 @@
+﻿@page "/list"
+@attribute [Authorize(Roles = "Admin")]
+
+<NewUserModal />
+@if (_users.IsNullOrEmpty())
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <Row>
+        <Column>
+            <Card Margin="Margin.Is4.OnY">
+                <CardHeader>
+                    <CardTitle >USERS LIST</CardTitle>
+                </CardHeader>
+                <CardBody>
+                    <DataGrid TItem="UserDto"
+                          Data="@_users"
+                          ShowPager
+                          PageSize="10"
+                          ShowPageSizes
+                          Filterable
+                          @bind-SelectedRow="@_selectedUser"
+                          @onclick=OnSelectedUser
+                          FilterMethod="DataGridFilterMethod.Contains">
+                        <DataGridColumns>
+                            <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.Id)" Filterable="false" Caption="ID" Sortable="true" Editable="false" />
+                            <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.FirstName)" Caption="First Name" Sortable="true" Editable="false" />
+                            <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.LastName)" Caption="Last Name" Sortable="true" Editable="false" />
+                            <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.Email)" Caption="Email" Sortable="true" Editable="false" />
+                            <DataGridCheckColumn TItem="UserDto" Field="@nameof(UserDto.IsActive)" Caption="Active" Editable Filterable="false">
+                                <DisplayTemplate>
+                                    <Check TValue="bool" Checked="context.IsActive" Disabled ReadOnly />
+                                </DisplayTemplate>
+                            </DataGridCheckColumn>
+                            <DataGridColumn TItem="UserDto" Field="@nameof(UserDto.Roles)" Caption="Roles" Sortable="false">
+                                <DisplayTemplate>
+                                    @{
+                                        var roles = (context as UserDto)?.Roles;
+                                        var test = roles.Select(x => x.RoleName);
+                                        @(string.Join(", ", test));
+                                    }
+                                </DisplayTemplate>
+                            </DataGridColumn>
+                        </DataGridColumns>
+                    </DataGrid>
+                </CardBody>
+            </Card>
+        </Column>
+    </Row>
+}
+

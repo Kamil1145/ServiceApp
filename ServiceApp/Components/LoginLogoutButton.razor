@@ -1,0 +1,50 @@
+﻿<AuthorizeView>
+    <Authorized>
+@*        @foreach (var claim in @context.User.Claims)
+        {
+            <text>
+                @claim.Value;
+            </text>
+
+        }*@
+        <button @onclick="Logout" class="btn btn-danger">Logout</button>
+    </Authorized>
+    <NotAuthorized>
+        <button @onclick="Login" class="btn btn-success">Login</button>
+        <button @onclick="Register" class="btn btn-success">Register</button>
+    </NotAuthorized>
+</AuthorizeView>
+
+@code {
+
+    [Inject]NavigationManager _navigationManager { get; set; }
+
+    [Inject] ILocalStorageService _localStorage{ get; set; }
+
+    [Inject] AuthenticationStateProvider _authenticationStateProvider{ get; set; }
+
+
+
+    private async Task Logout()
+    {
+        await _localStorage.RemoveItemAsync("token");
+        await _localStorage.RemoveItemAsync("refresh_token");        
+        await _authenticationStateProvider.GetAuthenticationStateAsync();
+    }
+
+    private void Login()
+    {
+        _navigationManager.NavigateTo(PageDictionary.LoginPage());
+        StateHasChanged();
+    }
+
+    private void Register()
+    {
+        _navigationManager.NavigateTo(PageDictionary.RegisterPage());
+    }
+
+    private void MyProfil()
+    {
+        _navigationManager.NavigateTo(PageDictionary.MyProfilePage());
+    }
+}

@@ -1,0 +1,30 @@
+﻿@page "/counter"
+<h1>Counter</h1>
+<p>Current count: @currentCount</p>
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+<div class="spinner"></div>
+
+
+@code {
+    private int currentCount = 0;
+    private void IncrementCount()
+    {
+        currentCount++;
+    }
+    protected override async Task OnInitializedAsync()
+    {
+        base.OnInitialized();
+        var timer = new System.Threading.Timer((_) =>
+        {
+            InvokeAsync( async ()  =>
+            {
+    // Add your update logic here
+                IncrementCount();
+    // Update the UI
+                StateHasChanged();
+            });
+        }, null, 0, 1000);
+    }
+}
+4. Try it out

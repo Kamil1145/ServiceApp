@@ -1,0 +1,17 @@
+﻿@page "/activateaccount/{_id}"
+
+<h3>ActivateAccount</h3>
+@if (_text.IsNullOrEmpty())
+{
+    <div class="spinner"></div>
+}
+else
+{
+    <div class="activate-account" style="text-align:center">
+        <h1>
+            @_text
+        </h1>
+    </div>
+}
+
+

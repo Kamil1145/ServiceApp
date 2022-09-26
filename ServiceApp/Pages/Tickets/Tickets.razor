@@ -1,0 +1,60 @@
+﻿@page "/tickets"
+@attribute [Authorize]
+
+
+<h1 style="text-align:center">Tickets</h1>
+@if (_ticketList == null)
+{
+    <div class="spinner"></div>
+}
+else if (_ticketList.Any())
+{
+    <DataGrid TItem="Ticket"
+          Data="@_ticketList"
+          ShowPager
+          PageSize="10"
+          ShowPageSizes
+          Filterable
+          @onclick=OnSelectedTicket
+          @bind-SelectedRow="@_selectedTicket"
+          FilterMethod="DataGridFilterMethod.Contains">
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.Id)" Filterable="false" Caption="ID" Sortable="false" Width="350px" />
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.Title)" Caption="Title" Sortable="true" Editable Width="50px" />
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.Priority)" Caption="Priority" Sortable="true" Editable Width="100px" />
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.TicketStatus)" Caption="TicketStatus" Sortable="true" Editable Width="50px" />
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.CreatedAt)" Caption="CreatedAt" Sortable="true" Editable />
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.CreatedBy)" Filterable="false" Caption="Created By" Sortable="true">
+            <DisplayTemplate>
+                @{
+                    var user = (context as Ticket).CreatedBy;
+                    @($"{user?.FirstName} {user?.LastName}")
+                }
+            </DisplayTemplate>
+        </DataGridColumn>
+        <DataGridColumn TItem="Ticket" Field="@nameof(Ticket.ResponsibleUser)" Filterable="false" Caption="Assigned to" Sortable="false">
+            <DisplayTemplate>
+                @{
+                    var user = (context as Ticket).ResponsibleUser;
+                    if (user != null)
+                    {
+                        @(user?.FirstName + " "+ user?.LastName)
+                    }
+                }
+            </DisplayTemplate>
+        </DataGridColumn>
+
+        <AuthorizeView Roles="Admin,Developer">
+            <Authorized>
+                <DataGridColumn Field="@nameof(Ticket.JiraTicketId)" Caption="JiraTicket" Sortable="false" Editable />
+            </Authorized>
+
+        </AuthorizeView>
+
+    </DataGrid>
+}
+else
+{
+    <div>
+        <h4>Brak zgłoszeń</h4>
+    </div>
+}

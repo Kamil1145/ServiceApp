@@ -1,0 +1,124 @@
+﻿@page "/Ticketdetails/{_id}"
+@attribute [Authorize]
+
+
+<AuthorizeView>
+    <Authorized>
+        <div class="row justify-content-center m-3">
+            <div class="col-sm-8">
+                <div class="card">
+                    @if (TicketDto is null)
+                    {
+                        <div class="spinner"></div>
+                    }
+                    else
+                    {
+                        <div class="card-body text-center">
+                            <h2>Topic: @TicketDto.Title</h2>
+                        </div>
+                        <AuthorizeView Context="admin" Roles="Admin">
+                            <Authorized>
+
+                                <div style="text-align: left; horiz-align: left;display:inline-block">
+                                    Tasks status: <TicketStatusComponent @ref="_ticketStatusComponent" />
+                                </div>
+                                <h4 style="text-align: left">Created at: @TicketDto.CreatedAt</h4>
+
+                                Tasks status: <TicketPriorityComponent @ref="_ticketPriorityComponent" />
+                            </Authorized>
+                        </AuthorizeView>
+
+                        <div class="card-header">
+                            <p class="comment">
+                                @TicketDto.Description
+                            </p>
+                            @if (_userContext != null && TicketDto != null && _userContext.Email == TicketDto.CreatedBy?.Email)
+                            {
+                                <TicketModal @ref="_ticketModalref" />
+                            }
+                            <AuthorizeView Context="admin" Roles="Admin">
+                                <Authorized>
+                                    <div style="text-align: left">
+                                        <a @onclick="CreateJiraIssueAction" class="btn btn-success">Create Jira Issue</a>
+                                        <a>JiraTicketId: @TicketDto.JiraTicketId </a>
+                                    </div>
+                                </Authorized>
+                            </AuthorizeView>
+                            <p class="author">
+                                Reporter: @TicketDto.CreatedBy?.FirstName @TicketDto.CreatedBy?.LastName
+                            </p>
+                        </div>
+
+                        <div>
+                            <h4 class="author" style="text-align: left">Responsible User: @TicketDto.ResponsibleUser?.FirstName @TicketDto.ResponsibleUser?.LastName </h4>
+                            <UsersModal @ref="_userModal" />
+                        </div>
+
+
+                        <p style="text-align: right">Ticket ID: @TicketDto.Id</p>
+                        <div class="card-header">
+                            <h4 class="comment" style="color: black">Comments: </h4>
+                            @foreach (var comment in TicketDto.Comments.OrderBy(x => x.CreatedDate))
+                            {
+                                <div class="card-header">
+                                    <p class="author">Author: @comment.Author.FirstName @comment.Author.LastName</p>
+                                    <p class="comment">@comment.Description</p>
+                                    <p class="comment" style="text-align: left">@comment.CreatedDate</p>
+                                </div>
+                            }
+                        </div>
+
+
+                        @if (_showComment)
+                        {
+                            <div class="card-header">
+                                <Field>
+                                    <FieldLabel>Comment</FieldLabel>
+                                    <MemoEdit @bind-Text="_ticketComment" Placeholder="Enter comment..." />
+                                </Field>
+                                <Button Color="Color.Primary" Clicked="@SaveComment">Save Changes</Button>
+                            </div>
+                        }
+                        <div class="card-footer text-center">
+                            <a href="@PageDictionary.TicketsPage()" class="btn btn-primary">Back</a>
+                            <a class="btn btn-primary" @onclick="SwitchVisibilityCommentTexbox">@_buttonText</a>
+                            @if (_userContext != null 
+                                 && TicketDto != null 
+                                 && (_userContext.Email == TicketDto.CreatedBy?.Email
+                                 || _userContext.Roles.Any(r=>r.RoleName=="Admin")))
+                            {
+                                <a @onclick="DeleteTicket" class="btn btn-danger">Delete</a>
+                            }
+                            <a @onclick="SaveTicketStatus" class="btn btn-primary">Save ticket status</a>
+                        </div>
+
+                    }
+                </div>
+
+            </div>
+        </div>
+    </Authorized>
+    <NotAuthorized>
+        Użytkownik niezalogowany, brak dostępu do zasobów
+    </NotAuthorized>
+</AuthorizeView>
+
+<style>
+    .comment {
+        color: blue;
+        left: 0px;
+        text-align: left;
+    }
+
+    .ticket {
+        color: black;
+        left: 0px;
+        text-align: left;
+    }
+
+    .author {
+        color: black;
+        left: 0px;
+        text-align: right;
+    }
+</style>

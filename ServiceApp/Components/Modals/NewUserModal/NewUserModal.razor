@@ -1,0 +1,62 @@
+﻿<div>
+
+    <Button Color="Color.Primary" Clicked="()=>ShowModal(false)">Add new user</Button>
+
+    <Button Color="Color.Primary" Clicked="()=>ShowModal(true)">Add new customer</Button>
+
+</div>
+
+
+<Modal @ref="_modalRef" Class="modal">
+    <ModalContent Centered>
+        <ModalHeader>
+            <ModalTitle>Add new Employee</ModalTitle>
+            <CloseButton />
+        </ModalHeader>
+        <ModalBody>
+            <Field>
+                <FieldLabel>First Name</FieldLabel>
+                <TextEdit @bind-Text="_userRegisterDto.FirstName" Placeholder="Enter First Name" />
+            </Field>
+            <Field>
+                <FieldLabel>Last Name</FieldLabel>
+                <TextEdit @bind-Text="_userRegisterDto.LastName" Placeholder="Enter Last Name" />
+            </Field>
+            <Field>
+                <FieldLabel>Email</FieldLabel>
+                <TextEdit @bind-Text="_userRegisterDto.Email" Placeholder="Enter Email" />
+            </Field>            
+            <Field>
+                <FieldLabel>Phone Number</FieldLabel>
+                <TextEdit @bind-Text="_userRegisterDto.PhoneNumber" Placeholder="Enter Phone Number" />
+            </Field>
+            @if (!_createCustomer)
+            {
+                <Field>
+                    <FieldLabel>Password</FieldLabel>
+                    <TextEdit @bind-Text="_userRegisterDto.Password" Placeholder="Enter Password" />
+                </Field>
+                <Field>
+                    <RolesComponent @ref="_rolesComponent" />
+                </Field>
+            }
+
+
+        </ModalBody>
+        <ModalFooter>
+            <Button Color="Color.Secondary" Clicked="@HideModal">Close</Button>
+            <Button Color="Color.Primary" Clicked="@Save">Save Changes</Button>
+        </ModalFooter>
+    </ModalContent>
+</Modal>
+
+<style>
+    .modal {
+        z-index: 20;
+        opacity: 100;
+    }
+
+    .modal-backdrop {
+        z-index: 0;
+    }
+</style>

@@ -1,0 +1,75 @@
+﻿@page "/edituser/{_id}"
+@attribute [Authorize]
+
+<body>
+    <div class="EditPage">
+        <Layout>
+            <LayoutHeader>
+                <center>User profile @_user.FirstName @_user.LastName</center>
+            </LayoutHeader>
+            <LayoutContent>
+                <div class="subtitle">
+                    <Field>
+                        <FieldLabel>Name:</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=_user.FirstName />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Last name:</FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=_user.LastName />
+                        </FieldBody>
+                    </Field>
+                    <Field>
+                        <FieldLabel>Email: </FieldLabel>
+                        <FieldBody>
+                            <TextEdit @bind-Text=_user.Email />
+                        </FieldBody>
+                    </Field>
+                </div>
+                <table>
+                    <AuthorizeView Roles="Admin">
+                        <Authorized>
+                            <tr class="admin-header">
+                                <b>
+                            <tr>Admin panel</tr></b>
+                            <th>Active role:</th>
+                            <th>Add new role:</th>
+                            <th>User active:</th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    @if (!_user.Roles.IsNullOrEmpty())
+                                    {
+                                        @foreach (var role in _user.Roles)
+                                        {
+                                            <button class="button btn-light" title="Click to remove" @onclick="()=> OnButtonClicked(role.Id)">@role.RoleName</button>
+                                        }
+                                    }
+                                </td>
+                                <td>
+                                    <RolesComponent @ref="_rolesComponent" />
+                                    <Button Color="Color.Primary" Clicked="@AddRoleToUser">Add role</Button>
+                                </td>
+                                <td>
+                                    <Check Size="Size.ExtraLarge" TValue="bool" @bind-Checked=_user.IsActive />
+                                </td>
+                            </tr>
+                        </Authorized>
+                    </AuthorizeView>
+                </table>
+                <div class="buttons">
+                    @if (_pageHistoryState.CanGoBack())
+                    {
+                        <Button Color="Color.Primary" Clicked="@Back">Back</Button>
+                    }
+                    <Button Color="Color.Primary" Clicked="@Save">Save changes</Button>
+                </div>
+            </LayoutContent>
+        </Layout>
+    </div>
+</body>
+
+
+
